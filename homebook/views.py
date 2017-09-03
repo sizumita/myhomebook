@@ -1,5 +1,8 @@
 import urllib.request
 import urllib.parse
+
+from django.views.generic import ListView
+
 from .models import Book,Disc
 from django.http import HttpResponse
 from django.shortcuts import render, redirect,get_object_or_404
@@ -173,3 +176,16 @@ def youtube(request):
                   'homebook/youtube.html',
                   {'form':form})
 
+class ImpressionList(ListView):
+    """感想の一覧"""
+    context_object_name='impressions'
+    template_name='homebook/tag_list.html'
+    paginate_by = 10  # １ページは最大2件ずつでページングする
+
+    def get(self, request, *args, **kwargs):
+        book = get_object_or_404(Book, pk=kwargs['name'])  # 親の書籍を読む
+        tag = book.impressions.all().order_by('id')   # 書籍の子供の、感想を読む
+        self.object_list = tag
+
+        context = self.get_context_data(object_list=self.object_list, book=book)
+        return self.render_to_response(context)

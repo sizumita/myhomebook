@@ -74,4 +74,9 @@ class Disc(models.Model):
     def __str__(self):
         return self.name
 
-
+class booktag(models.Model):
+    book = models.ForeignKey(Book, verbose_name='本', related_name='tags')
+    tag = models.CharField('タグのページ',max_length=100)
+    how = models.IntegerField('誰のタグか',choices=HOW,default=4)
+    def __str__(self):
+        return self.tag
