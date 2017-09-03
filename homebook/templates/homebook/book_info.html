@@ -1,0 +1,29 @@
+{% extends "homebook/base.html" %}
+
+{% block title %}書籍の詳細{% endblock title %}
+
+{% block extrahead %}
+<style>
+table {
+  margin-top: 8px;
+}
+
+</style>
+{% endblock %}
+{% block content %}
+    <h3 class="page-header">{{ book.name }}の詳細</h3>
+    <table class="table table-striped table-bordered">
+        <tbody>
+        <tr>
+          <td>名前　　　　　{{ book.name }}<br>
+              出版社　　　　{{ book.publisher }}<br>
+              ページ数　　　{{ book.page }}<br>
+              所有者　　　　{{ book.get_how_display }}<br>
+              ジャンル　　　{{ book.get_genre_display }}<br>
+              amazon      <a href='https://www.amazon.co.jp/s/url=search-alias%3Daps&field-keywords={{ book.name }}' class="btn btn-default btn-sm" target="_blank">URL</a><br>
+              あらすじ     {{ ara }}<br>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+{% endblock content %}

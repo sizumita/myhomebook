@@ -1,0 +1,49 @@
+{% extends "homebook/base.html" %}
+
+{% block title %}書籍の一覧{% endblock title %}
+
+{% block extrahead %}
+<style>
+table {
+  margin-top: 8px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <h3 class="page-header">書籍の一覧</h3>
+    <a href="{% url 'homebook:book_add' %}" class="btn btn-default btn-sm">追加</a>
+    <a href="{% url 'homebook:book_listy' %}" class="btn btn-default btn-sm">未読順にソート</a>
+    <a href="{% url 'homebook:book_listj' %}" class="btn btn-default btn-sm">ジャンル別にソート</a>
+    <a href="{% url 'homebook:book_list' %}" class="btn btn-default btn-sm">50音順にソート</a>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>書籍名</th>
+          <th>出版社</th>
+          <th>ページ数</th>
+          <th>所有者</th>
+          <th>ジャンル</th>
+          <th>既読か</th>
+          <th>その他</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in books %}
+        <tr>
+          <td>{{ book.name }}</td>
+          <td>{{ book.publisher }}</td>
+          <td>{{ book.page }}</td>
+          <td>{{ book.get_how_display }}</td>
+          <td>{{ book.get_genre_display }}</td>
+          <td>{{ book.get_yonda_display }}</td>
+          <td>
+            <a href="{% url 'homebook:book_mod' book_id=book.id %}" class="btn btn-default btn-sm">修正</a>
+            <a href="{% url 'homebook:book_del' book_id=book.id %}" class="btn btn-default btn-sm">削除</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock content %}

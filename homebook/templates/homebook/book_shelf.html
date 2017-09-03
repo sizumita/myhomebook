@@ -1,0 +1,27 @@
+{% extends "homebook/base.html" %}
+
+{% block title %}本棚{% endblock title %}
+
+{% block extrahead %}
+<style>
+table {
+  margin-top: 8px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <h3 class="page-header">書籍の一覧</h3>
+    <table class="table table-striped table-bordered">
+      <tbody>
+        {% for book in book %}
+        <tr>
+          <td>
+            {{ book.name }}
+            <a href="{% url 'homebook:bookinfo' book_id=book.id %}" class="btn btn-default btn-sm">内容</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+{% endblock content %}
