@@ -7,7 +7,7 @@ class BookForm(ModelForm):
     """書籍のフォーム"""
     class Meta:
         model = Book
-        fields = ('name', 'publisher', 'page','how','yonda','genre' )
+        fields = ('name', 'publisher', 'page','how','yonda','genre','place',)
 
 
 

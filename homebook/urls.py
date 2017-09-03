@@ -5,6 +5,7 @@ urlpatterns = [
     url(r'^booklist/$', v.book_list, name='book_list'),
     url(r'^booklisty/$',v.book_list_y,name='book_listy'),
     url(r'^booklistj/$',v.book_list_j,name='book_listj'),
+    url(r'^booklistp/$',v.book_list_p,name='book_listp'),
     url(r'^book/add/$', v.book_edit, name='book_add'),
     url(r'^book/mod/(?P<book_id>\d+)/$', v.book_edit, name='book_mod'),
     url(r'^book/del/(?P<book_id>\d+)/$', v.book_del, name='book_del'),
@@ -17,5 +18,4 @@ urlpatterns = [
     url(r'^movied/$', v.youtube,name='videod'),
     url(r'^bookshelf$',v.book_shelf,name='bookshelf'),
     url(r'^bookinfo/(?P<book_id>\d+)/$',v.bookinfo, name='bookinfo'),
-
 ]

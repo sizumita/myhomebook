@@ -40,15 +40,15 @@ JANRU = {
 }
 
 JANRU_D = {
-    (1,'アニメ'),
-    (2,'映画'),
-    (3,'コズミックフロント'),
-    (4,'勉強用'),
-    (5,'クラッシック'),
-    (6,'宇宙'),
-    (7,'その他'),
-    (8,'-------'),
-    (9,'寺')
+    (1,'CD'),
+    (2,'DVD'),
+    (3,'BD')
+}
+
+PLS = {
+    (1,'１階'),
+    (2,'２階'),
+    (3,'不定')
 }
 
 
@@ -61,6 +61,7 @@ class Book(models.Model):
     yonda = models.IntegerField('本を読んだか',choices=YONDA,default=2)
     genre = models.IntegerField('ジャンル',choices=JANRU,default=10)
     date = models.DateField('登録した日付',default=now)
+    place = models.IntegerField('場所',choices=PLS,default=3)
 
     def __str__(self):
         return self.name
@@ -68,7 +69,7 @@ class Book(models.Model):
 
 class Disc(models.Model):
     name = models.CharField('CD,DVDの名前',max_length=255)
-    genres = models.IntegerField('ジャンル',choices=JANRU_D,default=8)
+    genres = models.IntegerField('種類',choices=JANRU_D,blank=True)
 
     def __str__(self):
         return self.name

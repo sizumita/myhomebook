@@ -78,6 +78,12 @@ def book_list_j(request):
                   'homebook/book_lists.html',
                   {'books' : books})
 
+def book_list_p(request):
+    books = Book.objects.all().order_by('place')
+    return render(request,
+                  'homebook/book_lists.html',
+                  {'books' : books})
+
 
 def book_shelf(request):
     book = Book.objects.all().order_by('name')
