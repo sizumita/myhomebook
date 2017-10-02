@@ -2,12 +2,15 @@ import urllib.request
 import urllib.parse
 
 from django.views.generic import ListView
+import os
 
-from .models import Book,Disc
+
+
+from .models import Book,Disc,booktag
 from django.http import HttpResponse
 from django.shortcuts import render, redirect,get_object_or_404
 from django.views import generic
-from .forms import BookForm,DiscForm,youtubeForm
+from .forms import BookForm,DiscForm,youtubeForm,booktagForm
 import json
 import urllib.request
 import urllib.parse
@@ -16,6 +19,7 @@ import urllib
 import youtube_dl
 from django.db.models import Q
 import re
+
 
 options = {
   'format': 'bestaudio[ext=mp3]/bestaudio[ext=m4a]/bestaudio'
@@ -123,8 +127,8 @@ def bookinfo(request, book_id=None):
         book = get_object_or_404(Book, pk=book_id)
     else:
         book = Book.objects.get(book_id)
-    return render(request, 'homebook/book_info.html',
-                  { 'book' : book },)
+    arasuzi = geta.getara(book)
+    return render(request, 'homebook/book_info.html', { 'book' : book, 'arasuzi' : arasuzi })
 
 def book_del(request, book_id):
     """書籍の削除"""
@@ -165,27 +169,3 @@ def disc_del(request, disc_id):
     disc.delete()
     return redirect('homebook:disc_list')
 
-def youtube(request):
-    form = youtubeForm
-    if request.method == 'POST':
-            with youtube_dl.YoutubeDL(options) as ydl:
-                ydl.download([str(request.POST)])
-                return redirect('homebook:book_list')
-
-    return render(request,
-                  'homebook/youtube.html',
-                  {'form':form})
-
-class ImpressionList(ListView):
-    """感想の一覧"""
-    context_object_name='impressions'
-    template_name='homebook/tag_list.html'
-    paginate_by = 10  # １ページは最大2件ずつでページングする
-
-    def get(self, request, *args, **kwargs):
-        book = get_object_or_404(Book, pk=kwargs['name'])  # 親の書籍を読む
-        tag = book.impressions.all().order_by('id')   # 書籍の子供の、感想を読む
-        self.object_list = tag
-
-        context = self.get_context_data(object_list=self.object_list, book=book)
-        return self.render_to_response(context)
